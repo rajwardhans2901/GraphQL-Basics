@@ -37,9 +37,28 @@ const resolvers = {
     },
     Review: {
         author(parent) {
-            return db.reviews.find((a)=> a.id === parent.author_id )
-        }
+            return db.authors.find((a)=> a.id === parent.author_id )
+        },
+        game(parent) {
+            return db.games.find((a)=> a.id === parent.game_id )
+        },
     }
+
+    // query ExampleQuery($id: ID!) {
+    //     game(id: $id) {
+    //         title
+    //         reviews {
+    //             rating
+    //             author {
+    //                 name
+    //             }
+    //             game {
+    //                 platform
+    //             }
+    //         }
+    //     }
+    // }
+
 }
 
 const server = new ApolloServer({
