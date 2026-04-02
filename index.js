@@ -42,6 +42,30 @@ const resolvers = {
         game(parent) {
             return db.games.find((a)=> a.id === parent.game_id )
         },
+    },
+    Mutation: {
+        deleteGame(_, args) {
+            db.games = db.games.filter((g) => g.id !== args.id)
+            return db.games
+        },
+        addGame(_, args) {
+            let game = {
+                ...args.game,
+                id: Math.floor(Math.random() * 10000).toString()
+            }
+            db.games.push(game)
+            return game
+
+        },
+        updateGame(_, args) {
+            db.games = db.games.map((g) => {
+                if (g.id === args.id) {
+                    return {...g, ...args.edits}
+                }
+                return g
+            })
+            return db.games.find((g)=> g.id === args.id)
+        }
     }
 
     // query ExampleQuery($id: ID!) {
@@ -56,6 +80,29 @@ const resolvers = {
     //                 platform
     //             }
     //         }
+    //     }
+    // }
+
+    // mutation DeleteMutation($id: ID!, $deleteGameId: ID!) {
+    //     deleteGame(id: $deleteGameId) {
+    //         id,
+    //         title,
+    //         platform 
+    //     }
+    // }
+
+    // mutation AddGame($game: AddGameInput!) {
+    //     addGame(game: $game) {
+    //         id,
+    //         title,
+    //         platform
+    //     }
+    // }
+
+    // mutation UpdateGame($edits: EditGameInputs!, $updateGameId: ID!) {
+    //     updateGame(id: $updateGameId, edits: $edits) {
+    //         title,
+    //         platform
     //     }
     // }
 
